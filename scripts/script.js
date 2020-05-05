@@ -80,44 +80,148 @@ $(document).ready(function(){
 
      // Animate counter on scroll
     $(window).scroll(function(){
-        if($('#stats').length){
-        if((document.getElementById('stats').getBoundingClientRect().top -$(window).innerHeight() + $('#stats').innerHeight()/3*2)<0){  //element must be 2/3 visible from bottom to start function
-            $('#stats').css('opacity', 1);
-                $({ Counter: 1991 }).animate({ Counter: $('#year').text() }, {
-                    duration: 2000,
-                    easing: 'swing',
-                    step: function () {
-                        $('#year').text(Math.ceil(this.Counter));
-                    }
-                });
-                $({ Counter: 0 }).animate({ Counter: $('#courses').text() }, {
-                    duration: 2000,
-                    easing: 'swing',
-                    step: function () {
-                        $('#courses').text(Math.ceil(this.Counter));
-                    }
-                });
-                $({ Counter: 400 }).animate({ Counter: $('#students').text() }, {
-                    duration: 2000,
-                    easing: 'swing',
-                    step: function () {
-                        $('#students').text(Math.ceil(this.Counter));
-                    }
-                });
-        
-                $(window).off('scroll');    //Run once
-            }
-        }
+        statsAnimate();
     });
 
-    // Course page, Student page, College page
     
-    // Make + sign visible
-    if($('.accordion  h2').length){
-        $('.accordion  h2').addClass('unselected');
-        // Hide all under h2 elements until next h2
-        var allPanels = $('.accordion h2').nextUntil('h2').hide();
+
+
+    // Contact page
+    // Run Video on top of map
+    $('#map-video').delay(13000).queue(function(){                          //Delay 13s, duration of video
+        $(this).animate({'opacity':0},1000).delay(1000).queue(function(){   //Fade out for 1s
+            $(this).css('display', 'none');                                 //Hide video
+            $(this).dequeue();
+        });
+        $(this).dequeue();
+    })
+
+
+    // Load part of the pages
+    // Loading Home page
+    $('nav [href="#index-load"]').click(function(){
+        $('main').html('');
+        $('main').load('index-part.html', function(){
+            $('meta[name=keywords]').attr('content', 'review, student, opinion');
+            $('meta[name=description]').attr('content', 'Learn front end web developing with QQI6 certification');
+            $('nav').children().removeClass('active');
+            $('nav [href="#index-load"]').addClass('active')
+
+            $(window).scroll(function(){
+        
+                statsAnimate();
+            });
+
+        });
+    });
+
+    // Loading Course page
+    $('nav [href="#course-load"]').click(function(){
+        $('main').html('');
+        $('main').load('course.html', function(){
+            $('meta[name=keywords]').attr('content', 'html5, css3, javascript, learn');
+            $('meta[name=description]').attr('content', 'What our student says about front end web developer course');
+            $('nav').children().removeClass('active');
+            $('nav [href="#course-load"]').addClass('active');
+            runAccordion();
+        });
+
+    });
+    // Loading Student page
+    $('nav [href="#students-load"]').click(function(){
+        $('main').html('');
+        $('main').load('students.html', function(){
+            $('meta[name=keywords]').attr('content', 'eligibility, fees, allowances, apply, selection criteria, attendance, duration, certification');
+            $('meta[name=description]').attr('content', 'Information for students');
+            $('nav').children().removeClass('active');
+            $('nav [href="#students-load"]').addClass('active');
+            runAccordion();
+        });
+
+    });
+    // Loading employer page
+    $('nav [href="#employer-load"]').click(function(){
+        $('main').html('');
+        $('main').load('employer.html', function(){
+            $('meta[name=keywords]').attr('content', 'grant, training, work experience, placement, vacancy, candidates, jobsplus, dsp, 7500, 10000');
+            $('meta[name=description]').attr('content', 'Information for Employers. Government Grants');
+            $('nav').children().removeClass('active');
+            $('nav [href="#employer-load"]').addClass('active');
+
+        });
+    });
+    // Loading college page
+
+    $('nav [href="#college-load"]').click(function(){
+        $('main').html('');
+        $('main').load('college.html', function(){
+            $('meta[name=keywords]').attr('content', 'classroom, canteen, carpark');
+            $('meta[name=description]').attr('content', 'Discover of our facility, car park, canteen, classrooms environment');
+            $('nav').children().removeClass('active');
+            $('nav [href="#college-load"]').addClass('active');
+            runAccordion();
+
+        });
+
+    });
+    // Loading contact page
+    $('nav [href="#contact-load"]').click(function(){
+        $('main').html('');
+        $('main').load('contact.html', function(){
+            $('meta[name=keywords]').attr('content', 'phone number, address, map, facebook, newsletter, contact form');
+            $('meta[name=description]').attr('content', 'Contact us by phone, email, contact form or Facebook. Full address with map');
+            $('nav').children().removeClass('active');
+            $('nav [href="#contact-load"]').addClass('active');
+
+        });
+    });
+});
+// Variables
+var number = 0;
+var numberTestim = 0;
+var myTimer;
+
+
+// Animate counter on scroll
+function statsAnimate(){
+    if($('#stats').length){
+    if((document.getElementById('stats').getBoundingClientRect().top -$(window).innerHeight() + $('#stats').innerHeight()/3*2)<0){  //element must be 2/3 visible from bottom to start function
+        $('#stats').css('opacity', 1);
+            $({ Counter: 1991 }).animate({ Counter: $('#year').text() }, {
+                duration: 2000,
+                easing: 'swing',
+                step: function () {
+                    $('#year').text(Math.ceil(this.Counter));
+                }
+            });
+            $({ Counter: 0 }).animate({ Counter: $('#courses').text() }, {
+                duration: 2000,
+                easing: 'swing',
+                step: function () {
+                    $('#courses').text(Math.ceil(this.Counter));
+                }
+            });
+            $({ Counter: 400 }).animate({ Counter: $('#students').text() }, {
+                duration: 2000,
+                easing: 'swing',
+                step: function () {
+                    $('#students').text(Math.ceil(this.Counter));
+                }
+            });
+    
+            $(window).off('scroll');    //Run once
+        }
     }
+
+}
+    
+
+
+// Accordion
+function runAccordion(){
+    $('.accordion  h2').addClass('unselected');
+    // Hide all under h2 elements until next h2
+    var allPanels = $('.accordion h2').nextUntil('h2').hide();
     // Accordion function
     $('.accordion  h2').click(function(e) {
         if($(e.target).text() == 'Car Park'){       //Click first h2, adding heavy video source for college page.
@@ -135,67 +239,7 @@ $(document).ready(function(){
         $(this).toggleClass('selected unselected');     //Toggle classes to make - visible and hide + sign
         
     });
-
-    // Contact page
-    // Run Video on top of map
-    $('#map-video').delay(13000).queue(function(){                          //Delay 13s, duration of video
-        $(this).animate({'opacity':0},1000).delay(1000).queue(function(){   //Fade out for 1s
-            $(this).css('display', 'none');                                 //Hide video
-            $(this).dequeue();
-        });
-        $(this).dequeue();
-    })
-
-
-    // Load part of the pages
-    // Loading Home page
-    $('nav [href="#index-load"]').click(function(){
-        $('main').html('');
-        $('main').load('index-part.html');
-        $('nav').children().removeClass('active');
-        $(this).addClass('active')
-    });
-
-    // Loading Course page
-    $('nav [href="#course-load"]').click(function(){
-        $('main').html('');
-        $('main').load('course.html');
-        $('nav').children().removeClass('active');
-        $(this).addClass('active');
-    });
-    // Loading Student page
-    $('nav [href="#students-load"]').click(function(){
-        $('main').html('');
-        $('main').load('students.html');
-        $('nav').children().removeClass('active');
-        $(this).addClass('active');
-    });
-    // Loading employer page
-    $('nav [href="#employer-load"]').click(function(){
-        $('main').html('');
-        $('main').load('employer.html');
-        $('nav').children().removeClass('active');
-        $(this).addClass('active');
-    });
-    // Loading college page
-    $('nav [href="#college-load"]').click(function(){
-        $('main').html('');
-        $('main').load('college.html');
-        $('nav').children().removeClass('active');
-        $(this).addClass('active');
-    });
-    // Loading contact page
-    $('nav [href="#contact-load"]').click(function(){
-        $('main').html('');
-        $('main').load('contact.html');
-        $('nav').children().removeClass('active');
-        $(this).addClass('active');
-    });
-});
-// Variables
-var number = 0;
-var numberTestim = 0;
-var myTimer;
+}
 
 // Quotes data base
 var quotes=[
